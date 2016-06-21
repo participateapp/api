@@ -10,7 +10,8 @@ defmodule Api.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases,
-     deps: deps]
+     deps: deps,
+     preferred_cli_env: [espec: :test]]
   end
 
   # Configuration for the OTP application.
