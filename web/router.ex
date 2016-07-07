@@ -7,12 +7,14 @@ defmodule ParticipateApi.Router do
     plug JaSerializer.Deserializer
   end
 
-  scope "/api", ParticipateApi do
+  scope "/", ParticipateApi do
     pipe_through :api
+  end
+
+  scope "/auth", ParticipateApi do
+    pipe_through :browser
 
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
-    post "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :delete
   end
 end
