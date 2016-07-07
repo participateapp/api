@@ -39,7 +39,8 @@ defmodule ParticipateApi.Mixfile do
      {:cowboy, "~> 1.0"},
      {:espec, github: "antonmi/espec", only: :test},
      {:ueberauth_facebook, "~> 0.3"},
-     {:ueberauth_github, "~> 0.2"}]
+     {:ueberauth_github, "~> 0.2"},
+     {:ja_serializer, "~> 0.9.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
