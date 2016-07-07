@@ -1,5 +1,5 @@
-defmodule Api.ErrorView do
-  use Api.Web, :view
+defmodule ParticipateApi.ErrorView do
+  use ParticipateApi.Web, :view
 
   def render("404.json", _assigns) do
     %{errors: %{detail: "Page not found"}}

@@ -6,12 +6,13 @@
 use Mix.Config
 
 # Configures the endpoint
-config :api, Api.Endpoint,
+
+config :participate_api, ParticipateApi.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
-  secret_key_base: "1aFZ9Qx6CyYt7hEvcsn6RSmonLFqZHEc8iPwVVuu890pmX/tV+Tp191PdZ5MDkz8",
+  secret_key_base: "E3WtlLVmcTkskliNCRqzXOJK2D9XnW4zrT8MC+HFhUu6zIe51m4oHvxqJlbmHi83",
   render_errors: [accepts: ~w(json)],
-  pubsub: [name: Api.PubSub,
+  pubsub: [name: ParticipateApi.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
@@ -41,3 +42,4 @@ config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+

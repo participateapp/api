@@ -1,12 +1,12 @@
-defmodule Api.Web do
+defmodule ParticipateApi.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Api.Web, :controller
-      use Api.Web, :view
+      use ParticipateApi.Web, :controller
+      use ParticipateApi.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule Api.Web do
     quote do
       use Phoenix.Controller
 
-      alias Api.Repo
+      alias ParticipateApi.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Api.Router.Helpers
-      import Api.Gettext
+      import ParticipateApi.Router.Helpers
+      import ParticipateApi.Gettext
     end
   end
 
@@ -46,9 +46,9 @@ defmodule Api.Web do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
 
-      import Api.Router.Helpers
-      import Api.ErrorHelpers
-      import Api.Gettext
+      import ParticipateApi.Router.Helpers
+      import ParticipateApi.ErrorHelpers
+      import ParticipateApi.Gettext
     end
   end
 
@@ -62,10 +62,10 @@ defmodule Api.Web do
     quote do
       use Phoenix.Channel
 
-      alias Api.Repo
+      alias ParticipateApi.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
-      import Api.Gettext
+      import ParticipateApi.Gettext
     end
   end
 
