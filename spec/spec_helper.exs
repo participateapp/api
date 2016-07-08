@@ -4,10 +4,10 @@ ESpec.start
 
 ESpec.configure fn(config) ->
   config.before fn ->
-    Ecto.Adapters.SQL.Sandbox.checkout(App.Repo, [])
+    # Ecto.Adapters.SQL.Sandbox.checkout(ParticipateApi.Repo, [])
   end
 
   config.finally fn(_shared) ->
-    Ecto.Adapters.SQL.Sandbox.checkin(App.Repo, [])
+    # Ecto.Adapters.SQL.Sandbox.checkin(ParticipateApi.Repo, [])
   end
 end
