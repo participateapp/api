@@ -29,12 +29,3 @@ config :participate_api, ParticipateApi.Repo,
   database: "participate_api_dev",
   hostname: "localhost",
   pool_size: 10
-
-
-config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
-  client_id: "1583083701926004",
-  client_secret: "16b9c526400d10d95589b168dae80d4d"
-
-# config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-#   client_id: System.get_env("GITHUB_CLIENT_ID"),
-#   client_secret: System.get_env("GITHUB_CLIENT_SECRET")

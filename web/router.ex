@@ -10,11 +10,4 @@ defmodule ParticipateApi.Router do
   scope "/", ParticipateApi do
     pipe_through :api
   end
-
-  scope "/auth", ParticipateApi do
-    pipe_through :browser
-
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-  end
 end

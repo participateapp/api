@@ -20,8 +20,7 @@ defmodule ParticipateApi.Mixfile do
   def application do
     [mod: {Api, []},
      applications: [:phoenix, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :ueberauth_github,
-                    :ueberauth_facebook]]
+                    :phoenix_ecto, :postgrex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,8 +37,6 @@ defmodule ParticipateApi.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:espec, "~> 0.8.22", only: :test},
-     {:ueberauth_facebook, "~> 0.3"},
-     {:ueberauth_github, "~> 0.2"},
      {:ja_serializer, "~> 0.9.0"},
      {:guardian, "~> 0.12.0"}]
   end
