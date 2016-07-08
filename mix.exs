@@ -37,6 +37,7 @@ defmodule ParticipateApi.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:espec, "~> 0.8.22", only: :test},
+     {:espec_phoenix, "~> 0.2.1", only: :test, app: false},
      {:ja_serializer, "~> 0.9.0"},
      {:guardian, "~> 0.12.0"}]
   end
