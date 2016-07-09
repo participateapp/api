@@ -11,7 +11,8 @@ defmodule ParticipateApi.Mixfile do
      start_permanent: Mix.env == :prod,
      aliases: aliases,
      deps: deps,
-     preferred_cli_env: [espec: :test]]
+     preferred_cli_env: [espec: :test, vcr: :test, "vcr.delete": :test,
+                         "vcr.check": :test, "vcr.show": :test]]
   end
 
   # Configuration for the OTP application.
@@ -20,7 +21,7 @@ defmodule ParticipateApi.Mixfile do
   def application do
     [mod: {ParticipateApi, []},
      applications: [:phoenix, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :httpotion]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,7 +40,9 @@ defmodule ParticipateApi.Mixfile do
      {:espec, "~> 0.8.22", only: :test},
      {:espec_phoenix, "~> 0.2.1", only: :test, app: false},
      {:ja_serializer, "~> 0.9.0"},
-     {:guardian, "~> 0.12.0"}]
+     {:guardian, "~> 0.12.0"},
+     {:exvcr, "~> 0.7", only: :test},
+     {:httpotion, "~> 2.1"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
