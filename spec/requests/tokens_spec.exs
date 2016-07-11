@@ -32,11 +32,31 @@ defmodule ParticipateApi.TokensSpec do
         expect(subject).to have_http_status(400)
       end
 
-      # it 'responds with a error message' do
-      #   subject
+      it "responds with a error message" do
+        subject
 
-      #   expect(response.body).to eql('{"error":"facebook auth code missing"}')
-      # end
+        expect(subject.resp_body).to eql("{\"error\":\"facebook auth code missing\"}")
+      end
+    end
+
+    context "when Facebook responds with an error" do
+      subject! do
+        use_cassette "mock_facebook_error" do
+          post(conn(), "/token", params)
+        end
+      end
+
+      it "500 Internal server error" do
+        use_cassette "mock_facebook_error" do
+          expect(subject).to have_http_status(500)
+        end
+      end
+
+      it "responds with an empty response body" do
+        use_cassette "mock_facebook_error" do
+          expect(subject.resp_body).to eql("")
+        end
+      end
     end
   end
 end

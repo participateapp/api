@@ -1,6 +1,7 @@
 defmodule ParticipateApi.TokenController do
   use ParticipateApi.Web, :controller
-  
+  require Logger
+
   alias ParticipateApi.Account
   alias ParticipateApi.Facebook
 
@@ -14,10 +15,16 @@ defmodule ParticipateApi.TokenController do
         conn
         |> put_status(200)
     end
+  rescue
+    e in RuntimeError -> Logger.warn "\nFacebook API error: #{e.message}\n"
+    conn
+    |> put_status(500)
+    |> text("")
   end
 
   def create(conn, _) do
     conn
     |> put_status(400)
+    |> json(%{error: "facebook auth code missing"})
   end
 end
