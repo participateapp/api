@@ -1,15 +1,14 @@
-defmodule ParticipateApi.Account do
+defmodule ParticipateApi.Participant do
   use ParticipateApi.Web, :model
 
-  schema "accounts" do
-    field :email, :string
-    field :facebook_uid, :string
-    belongs_to :participant, ParticipateApi.Participant
+  schema "participants" do
+    field :name, :string
+    has_one :account, ParticipateApi.Account
 
     timestamps
   end
 
-  @required_fields ~w(email facebook_uid)
+  @required_fields ~w(name)
   @optional_fields ~w()
 
   @doc """

@@ -3,18 +3,22 @@ defmodule ParticipateApi.TokenController do
   require Logger
 
   alias ParticipateApi.Account
+  alias ParticipateApi.Participant
   alias ParticipateApi.Facebook
 
   def create(conn, %{"auth_code" => auth_code}) do
     facebook_params = Facebook.fetch_user(auth_code)
     email_and_uid = %{email: facebook_params["email"], facebook_uid: facebook_params["id"]}
     
-    changeset = Account.changeset(%Account{}, email_and_uid)
-    case Repo.insert(changeset) do
-      {:ok, _account} -> 
-        conn
-        |> put_status(200)
+    Repo.transaction fn ->
+      participant = Repo.insert!(%Participant{name: facebook_params["name"]})
+      
+      account = Ecto.build_assoc(participant, :account, email_and_uid)
+      Repo.insert!(account)
     end
+
+    conn
+    |> put_status(200)
   rescue
     e in RuntimeError -> Logger.warn "\nFacebook API error: #{e.message}\n"
     conn
