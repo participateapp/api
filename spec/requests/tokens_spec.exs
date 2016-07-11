@@ -1,18 +1,23 @@
 defmodule ParticipateApi.TokensSpec do
   use ESpec.Phoenix, request: ParticipateApi.Endpoint
+  use ExVCR.Mock
 
   alias ParticipateApi.Repo
   alias ParticipateApi.Account
 
   describe "POST /token" do
-    let :params, do: %{auth_code: "authenticationcode"}
+    before do: ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
 
-    # let :user_data, do: stub_facebook_requests!
-    let :user_data, do: %{name: 'Oliver', email: "oliverbwork@gmail.com"}
-    let :name,  do:  user_data[:name]
-    let :email, do:  user_data[:email]
+    let :params, do: %{auth_code: "AQDYCoRocBe5WGPR00Ydw4E8nBM7Ncm8Ld6RaN2VBVzLObUtXynkszCwQKvEtgJJ2Wgmdimm0d0lfkTUmkjA67Ba7NvLSH2ISJcpNH-xS8Hw8cTKUe1aqu_4EMETYx7W4F8Gh3S8zy8_w0pYpw7kt_A6csgyj6OoV7IdcGTjfjidF1h57F8YphETT-4qAcqC2U_hTkt6mW24TURusd3TZ1Bb7JTh7m1qr6v9xFzVaMYUZsmfWN6HjBiPdoVzfHMr_u6PlQCCQGiOIKWPNcJKAQS-11FnazXpVeNOGypFwJvyCVVnX4rQmsci37BAkTXdfrg#_=_"}
 
-    subject! do: post(conn(), "/token", params)
+    let :user_data, do: %{"email" => "oli.azevedo.barnes@gmail.com", "id" => "10152845136022407", "name" => "Oliver Azevedo Barnes"}
+    let :email, do:  user_data["email"]
+
+    subject! do
+      use_cassette "facebook" do
+        post(conn(), "/token", params)
+      end
+    end
     
     it do: should be_successful
 

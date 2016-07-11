@@ -1,0 +1,62 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": [],
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://graph.facebook.com/v2.3/oauth/access_token?client_id=1583083701926004&client_secret=16b9c526400d10d95589b168dae80d4d&redirect_uri=http://localhost:4200/&code=AQDYCoRocBe5WGPR00Ydw4E8nBM7Ncm8Ld6RaN2VBVzLObUtXynkszCwQKvEtgJJ2Wgmdimm0d0lfkTUmkjA67Ba7NvLSH2ISJcpNH-xS8Hw8cTKUe1aqu_4EMETYx7W4F8Gh3S8zy8_w0pYpw7kt_A6csgyj6OoV7IdcGTjfjidF1h57F8YphETT-4qAcqC2U_hTkt6mW24TURusd3TZ1Bb7JTh7m1qr6v9xFzVaMYUZsmfWN6HjBiPdoVzfHMr_u6PlQCCQGiOIKWPNcJKAQS-11FnazXpVeNOGypFwJvyCVVnX4rQmsci37BAkTXdfrg#_=_"
+    },
+    "response": {
+      "body": "{\"access_token\":\"EAAWfzmWzZBHQBAMrm9XooqGNb0zAVsDSdg6zF3E51gZCwQeQwyfVsRW7QWMd8lLwH0rQGZBBfb8YmaEEj8UxGRZCeoq57ZBLEA27ZCexJKSHnWnakbxnnPMnVqk03n3CRKUnMMIF0746X3JF3LbAZB6WZAif3xZAIDOYZD\",\"token_type\":\"bearer\",\"expires_in\":5134782}",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Pragma": "no-cache",
+        "Cache-Control": "private, no-cache, no-store, must-revalidate",
+        "facebook-api-version": "v2.3",
+        "Expires": "Sat, 01 Jan 2000 00:00:00 GMT",
+        "Content-Type": "application/json; charset=UTF-8",
+        "x-fb-trace-id": "BC4m/7yIiAD",
+        "x-fb-rev": "2437658",
+        "Vary": "Accept-Encoding",
+        "X-FB-Debug": "p5rgb3HE/YGBNgKBmTZWR7g+0H27F7g2emWitZzjXOVj7WoqWffmismu0iZ/Aiwlqv5xrTmleXDzmLI8Nrxwtg==",
+        "Date": "Mon, 11 Jul 2016 14:10:01 GMT",
+        "Transfer-Encoding": "chunked",
+        "Connection": "keep-alive"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": [],
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://graph.facebook.com/v2.3/me?fields=email,name&access_token=EAAWfzmWzZBHQBAMrm9XooqGNb0zAVsDSdg6zF3E51gZCwQeQwyfVsRW7QWMd8lLwH0rQGZBBfb8YmaEEj8UxGRZCeoq57ZBLEA27ZCexJKSHnWnakbxnnPMnVqk03n3CRKUnMMIF0746X3JF3LbAZB6WZAif3xZAIDOYZD"
+    },
+    "response": {
+      "body": "{\"email\":\"oli.azevedo.barnes\\u0040gmail.com\",\"name\":\"Oliver Azevedo Barnes\",\"id\":\"10152845136022407\"}",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "ETag": "\"80380c7e3ae0500d68a46ea07c59ee677d9fa42d\"",
+        "Pragma": "no-cache",
+        "Cache-Control": "private, no-cache, no-store, must-revalidate",
+        "facebook-api-version": "v2.3",
+        "Expires": "Sat, 01 Jan 2000 00:00:00 GMT",
+        "Content-Type": "text/javascript; charset=UTF-8",
+        "x-fb-trace-id": "EPAf/cT21lt",
+        "x-fb-rev": "2437658",
+        "X-FB-Debug": "BJlv5eL32naHSFhmaH2SojTwqsFzSjIyqWw+PxU89PS0JILDek9TWBC1/FyAKSc5340kyzPN6BtrDGr1TIEpLA==",
+        "Date": "Mon, 11 Jul 2016 14:10:02 GMT",
+        "Connection": "keep-alive",
+        "Content-Length": "101"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
