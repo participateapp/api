@@ -36,6 +36,14 @@ defmodule ParticipateApi.TokensSpec do
       expect(participant.account).to eq account
     end
 
+    it "responds with an access token encoding the account" do
+      body = Poison.Parser.parse! subject.resp_body
+      token = body["access_token"]
+      {:ok, claims} = Guardian.decode_and_verify body["access_token"]
+      {:ok, decoded_account} = ParticipateApi.GuardianSerializer.from_token claims["aud"]
+      expect(decoded_account).to eq account
+    end
+
     context "when auth code is not present" do
       let :params, do: %{}
 
@@ -44,8 +52,6 @@ defmodule ParticipateApi.TokensSpec do
       end
 
       it "responds with a error message" do
-        subject
-
         expect(subject.resp_body).to eql("{\"error\":\"facebook auth code missing\"}")
       end
     end

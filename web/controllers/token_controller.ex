@@ -10,7 +10,7 @@ defmodule ParticipateApi.TokenController do
     facebook_params = Facebook.fetch_user(auth_code)
     email_and_uid = %{email: facebook_params["email"], facebook_uid: facebook_params["id"]}
     
-    Repo.transaction fn ->
+    {:ok, account} = Repo.transaction fn ->
       participant = Repo.insert!(%Participant{name: facebook_params["name"]})
       
       account = Ecto.build_assoc(participant, :account, email_and_uid)
@@ -19,6 +19,7 @@ defmodule ParticipateApi.TokenController do
 
     conn
     |> put_status(200)
+    |> put_access_token(account)
   rescue
     e in RuntimeError -> Logger.warn "\nFacebook API error: #{e.message}\n"
     conn
@@ -30,5 +31,11 @@ defmodule ParticipateApi.TokenController do
     conn
     |> put_status(400)
     |> json(%{error: "facebook auth code missing"})
+  end
+
+  defp put_access_token(conn, account) do
+    new_conn = Guardian.Plug.api_sign_in(conn, account)
+    token = Guardian.Plug.current_token(new_conn)
+    json conn, %{access_token: token}
   end
 end
