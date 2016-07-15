@@ -18,7 +18,7 @@ defmodule ParticipateApi.TokensSpec do
     let :account,      do: Repo.one(from a in Account, where: a.email == ^email and a.facebook_uid == ^facebook_uid)
     let :participant,  do: Repo.one(from p in Participant, where: p.name == ^name )
 
-    subject! do
+    subject do
       use_cassette "facebook" do
         post(conn(), "/token", params)
       end
@@ -27,10 +27,12 @@ defmodule ParticipateApi.TokensSpec do
     it do: should be_successful
 
     it "creates an account with facebook email and uid" do
+      subject
       expect(account).to_not be_nil
     end
 
     it "creates a participant with facebook name, associated to the account" do
+      subject
       expect(participant).to_not be_nil
       participant = Repo.preload(participant, :account)
       expect(participant.account).to eq account
@@ -38,10 +40,34 @@ defmodule ParticipateApi.TokensSpec do
 
     it "responds with an access token encoding the account" do
       body = Poison.Parser.parse! subject.resp_body
-      token = body["access_token"]
       {:ok, claims} = Guardian.decode_and_verify body["access_token"]
       {:ok, decoded_account} = ParticipateApi.GuardianSerializer.from_token claims["aud"]
       expect(decoded_account).to eq account
+    end
+
+    context "an account with the facebook uid already exists" do
+      before do: Repo.insert!(%Account{email: email, facebook_uid: facebook_uid})
+
+      it do: should be_successful
+
+      it "doesn't create another account" do
+        subject
+        query = from a in Account, where: a.email == ^email and a.facebook_uid == ^facebook_uid
+        length(Repo.all(query)) == 1
+      end
+
+      it "doesn't create another participant" do
+        subject
+        query = from p in Participant, where: p.name == ^name
+        length(Repo.all(query)) == 1
+      end
+
+      it "responds with an access token encoding the account" do
+        body = Poison.Parser.parse! subject.resp_body
+        {:ok, claims} = Guardian.decode_and_verify body["access_token"]
+        {:ok, decoded_account} = ParticipateApi.GuardianSerializer.from_token claims["aud"]
+        expect(decoded_account).to eq account
+      end
     end
 
     context "when auth code is not present" do

@@ -8,13 +8,16 @@ defmodule ParticipateApi.TokenController do
 
   def create(conn, %{"auth_code" => auth_code}) do
     facebook_params = Facebook.fetch_user(auth_code)
-    email_and_uid = %{email: facebook_params["email"], facebook_uid: facebook_params["id"]}
     
-    {:ok, account} = Repo.transaction fn ->
-      participant = Repo.insert!(%Participant{name: facebook_params["name"]})
-      
-      account = Ecto.build_assoc(participant, :account, email_and_uid)
-      Repo.insert!(account)
+    account = Repo.get_by(Account, facebook_uid: facebook_params["id"])
+
+    if !account do
+      {:ok, account} = Repo.transaction fn ->
+        participant = Repo.insert!(%Participant{name: facebook_params["name"]})
+        email_and_uid = %{email: facebook_params["email"], facebook_uid: facebook_params["id"]}      
+        build_account = Ecto.build_assoc(participant, :account, email_and_uid)
+        Repo.insert!(build_account)
+      end
     end
 
     conn
