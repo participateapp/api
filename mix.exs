@@ -21,7 +21,8 @@ defmodule ParticipateApi.Mixfile do
   def application do
     [mod: {ParticipateApi, []},
      applications: [:phoenix, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpotion]]
+                    :phoenix_ecto, :postgrex, :httpotion,
+                    :ex_machina]]
   end
 
   # Specifies which paths to compile per environment.
@@ -34,15 +35,17 @@ defmodule ParticipateApi.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.1.6"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_ecto, "~> 2.0"},
+     {:phoenix_ecto, "~> 3.0"},
+     {:ecto, "~> 2.0", override: true},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:espec, "~> 0.8.22", only: :test},
      {:espec_phoenix, "~> 0.2.1", only: :test, app: false},
-     {:ja_serializer, "~> 0.9.0"},
+     {:ja_serializer, github: "AgilionApps/ja_serializer"},
      {:guardian, "~> 0.12.0"},
      {:exvcr, "~> 0.7", only: :test},
-     {:httpotion, "~> 2.1"}]
+     {:httpotion, "~> 2.1"},
+     {:ex_machina, "~> 1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

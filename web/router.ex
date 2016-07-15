@@ -11,12 +11,12 @@ defmodule ParticipateApi.Router do
   #   pipe_through :api
   # end
 
-  pipeline :non_json_api do
+  pipeline :oauth do
     plug :accepts, ["json"]
   end
 
   scope "/", ParticipateApi do
-    pipe_through :non_json_api
+    pipe_through :oauth
 
     post "/token", TokenController, :create
   end
