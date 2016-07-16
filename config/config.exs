@@ -15,6 +15,8 @@ config :participate_api, ParticipateApi.Endpoint,
   pubsub: [name: ParticipateApi.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :participate_api, ecto_repos: [ParticipateApi.Repo]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
