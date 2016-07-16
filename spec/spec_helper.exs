@@ -1,5 +1,7 @@
 Code.require_file("#{__DIR__}/phoenix_helper.exs")
 
+{:ok, _} = Application.ensure_all_started(:ex_machina)
+
 ESpec.start
 
 ESpec.configure fn(config) ->
