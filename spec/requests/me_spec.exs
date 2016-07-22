@@ -9,15 +9,18 @@ defmodule ParticipateApi.MeSpec do
   describe "Me API" do
     # can't get ex_machina to work yet
     # let :account, do: insert(:account)
-    let :account do
+    before do
       participant = Repo.insert!(%Participant{name: "David Harvey"})
       email_and_uid = %{email: "david@harvey.net", facebook_uid: "111111111"}      
       build_account = Ecto.build_assoc(participant, :account, email_and_uid)
       Repo.insert!(build_account)
     end
-    let :current_participant do
-      account.participant
+
+    let :account do
+      (from Account, where: [email: "david@harvey.net"], preload: [:participant])
+      |> Repo.one
     end
+    let :current_participant, do: account.participant
     let :token, do: Guardian.encode_and_sign(account)
 
     describe "GET /me" do
