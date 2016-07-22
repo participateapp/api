@@ -20,7 +20,7 @@ defmodule ParticipateApi.TokensSpec do
 
     subject do
       use_cassette "facebook" do
-        post(conn(), "/token", params)
+        post(build_conn(), "/token", params)
       end
     end
     
@@ -85,7 +85,7 @@ defmodule ParticipateApi.TokensSpec do
     context "when Facebook responds with an error" do
       subject! do
         use_cassette "mock_facebook_error" do
-          post(conn(), "/token", params)
+          post(build_conn(), "/token", params)
         end
       end
 
