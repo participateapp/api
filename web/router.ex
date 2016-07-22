@@ -1,18 +1,17 @@
 defmodule ParticipateApi.Router do
   use ParticipateApi.Web, :router
 
-  # pipeline :api do
-  #   plug :accepts, ["json-api"]
-  #   plug JaSerializer.ContentTypeNegotiation
-  #   plug JaSerializer.Deserializer
-  # end
-
-  # scope "/", ParticipateApi do
-  #   pipe_through :api
-  # end
-
   pipeline :oauth do
     plug :accepts, ["json"]
+  end
+
+  pipeline :api do
+    plug :accepts, ["json-api"]
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.EnsureAuthenticated
+    plug JaSerializer.ContentTypeNegotiation
+    plug JaSerializer.Deserializer
   end
 
   scope "/", ParticipateApi do
@@ -20,4 +19,13 @@ defmodule ParticipateApi.Router do
 
     post "/token", TokenController, :create
   end
+
+  scope "/", ParticipateApi do
+    pipe_through :api
+
+    get "/me", MeController, :show
+
+    resources "/participants", ParticipantController, only: [:show]
+  end
+
 end

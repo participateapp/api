@@ -21,14 +21,18 @@ defmodule ParticipateApi.MeSpec do
       |> Repo.one
     end
     let :current_participant, do: account.participant
-    let :token, do: Guardian.encode_and_sign(account)
+    let :token do
+      { :ok, jwt, _full_claims } = Guardian.encode_and_sign(account)
+      jwt
+    end
 
     describe "GET /me" do
       subject do
-        get(build_conn(), "/me")
+        build_conn()
         |> put_req_header("accept", "application/vnd.api+json")
         |> put_req_header("content-type", "application/vnd.api+json")
         |> put_req_header("authorization", "Bearer #{token}")
+        |> get("/me")
       end
 
       it "200 OK" do
@@ -37,13 +41,15 @@ defmodule ParticipateApi.MeSpec do
 
       it "current participant" do
         expected = %{
-          data: %{
-            id: current_participant.id,
-            type: "participants",
-            links: %{
-              self: "http://www.example.com/participants/#{current_participant.id}"
-            }
-          }
+          "data" => %{
+            "id" => "#{current_participant.id}",
+            "type" => "participants",
+            "links" => %{
+              "self" => "http://localhost:4001/participants/#{current_participant.id}"
+            },
+            "attributes" => %{}
+          },
+          "jsonapi" => %{"version" => "1.0"}
         }
 
         payload = Poison.Parser.parse!(subject.resp_body)
@@ -51,7 +57,22 @@ defmodule ParticipateApi.MeSpec do
         expect(payload).to eql(expected)
       end
 
-      # it_behaves_like "token is invalid"
+      context "token is invalid" do
+        let :token, do: "badtoken"
+
+        it "401 Unauthorized" do
+          expect(subject).to have_http_status(401)
+        end
+
+        it "empty body" do
+          # expect(subject.resp_body).to eq ""
+          # this diverges from the oauth spec, but overriding 
+          # Guardian.Plug.EnsureAuthenticated's error handling isn't 
+          # worth it for now
+          expect(subject.resp_body).to eq "{\"errors\":[\"Unauthenticated\"]}"
+        end
+
+      end
     end
   end
 end
