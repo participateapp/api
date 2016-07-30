@@ -26,7 +26,7 @@ defmodule ParticipateApi.Router do
     get "/me", MeController, :show
 
     resources "/participants", ParticipantController, only: [:show]
-    resources "/proposals", ProposalController, only: [:create]
+    resources "/proposals", ProposalController
   end
 
 end

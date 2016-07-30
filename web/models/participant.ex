@@ -3,7 +3,9 @@ defmodule ParticipateApi.Participant do
 
   schema "participants" do
     field :name, :string
+
     has_one :account, ParticipateApi.Account
+    belongs_to :proposal, ParticipantApi.Proposal
 
     timestamps
   end
