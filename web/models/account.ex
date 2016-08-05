@@ -4,6 +4,7 @@ defmodule ParticipateApi.Account do
   schema "accounts" do
     field :email, :string
     field :facebook_uid, :string
+    
     belongs_to :participant, ParticipateApi.Participant
 
     timestamps
