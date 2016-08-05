@@ -5,8 +5,8 @@ defmodule ParticipateApi.Participant do
     field :name, :string
 
     has_one :account, ParticipateApi.Account
-    belongs_to :proposal, ParticipantApi.Proposal #as a delegate
-    has_many :proposals, ParticipantApi.Proposal #as an author
+    belongs_to :proposal, ParticipateApi.Proposal #as a delegate for the proposal
+    has_many :proposals, ParticipateApi.Proposal, foreign_key: :author_id
 
     timestamps
   end

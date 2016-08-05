@@ -1,4 +1,4 @@
-defmodule ParticipateApi.MeSpec do
+defmodule ParticipateApi.ProposalsSpec do
   use ESpec.Phoenix, request: ParticipateApi.Endpoint
 
   alias ParticipateApi.Repo
@@ -6,7 +6,7 @@ defmodule ParticipateApi.MeSpec do
   alias ParticipateApi.Participant
   alias ParticipateApi.Proposal
 
-  describe "Me API" do
+  describe "Proposals API" do
     # can't get ex_machina to work yet
     # let :account, do: insert(:account)
     before do
