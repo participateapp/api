@@ -5,7 +5,8 @@ defmodule ParticipateApi.Participant do
     field :name, :string
 
     has_one :account, ParticipateApi.Account
-    belongs_to :proposal, ParticipantApi.Proposal
+    belongs_to :proposal, ParticipantApi.Proposal #as a delegate
+    has_many :proposals, ParticipantApi.Proposal #as an author
 
     timestamps
   end
