@@ -17,8 +17,7 @@ defmodule ParticipateApi.ProposalController do
     query = from Participant, where: [id: ^account.participant_id]
     me = Repo.one(query)
 
-    # something wrong here... inspect data, and Params.to_attributes output
-    changeset = Repo.build_assoc(me, :proposals, Params.to_attributes(data))
+    changeset = Ecto.build_assoc(me, :proposals, Params.to_attributes(data))
 
     case Repo.insert(changeset) do
       {:ok, proposal} ->
