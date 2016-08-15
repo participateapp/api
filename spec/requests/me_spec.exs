@@ -43,10 +43,7 @@ defmodule ParticipateApi.MeSpec do
         expected = %{
           "data" => %{
             "id" => "#{current_participant.id}",
-            "type" => "participants",
-            "links" => %{
-              "self" => "http://localhost:4001/participants/#{current_participant.id}"
-            },
+            "type" => "participant",
             "attributes" => %{}
           },
           "jsonapi" => %{"version" => "1.0"}

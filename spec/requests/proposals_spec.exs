@@ -30,15 +30,17 @@ defmodule ParticipateApi.ProposalsSpec do
       let :params do
         %{
           "data" => %{
-            "type" => "proposals",
+            "type" => "proposal",
             "attributes" => %{
-              "title" => "New title",
-              "body" =>  "New body"
+              "title" => "Title",
+              "body" =>  "Body"
             }
           }
         }
       end
-      let :new_proposal, do: Repo.first(Proposal)
+      let :new_proposal do
+        Repo.one(Proposal) |> Repo.preload(:author) 
+      end
 
       subject do
         build_conn()
@@ -50,6 +52,54 @@ defmodule ParticipateApi.ProposalsSpec do
 
       it "201 Created" do
         expect(subject).to have_http_status(201)
+      end
+
+      context "creates a new proposal" do
+        before do: subject
+
+        it "including a title" do
+          expect(new_proposal.title).to eql "Title"
+        end
+
+        it "including a body" do
+          expect(new_proposal.body).to eql "Body"
+        end
+
+        it "including an author" do
+          expect(new_proposal.author).to eql current_participant
+        end
+      end
+
+      it "returns the new proposal" do
+        response_body = subject.resp_body
+
+        expected = %{
+          "data" => %{
+            "id" => "#{new_proposal.id}",
+            "type" => "proposal",
+            "attributes" => %{
+              "title" => "Title",
+              "body"=> "Body"
+            },
+            "relationships" => %{
+              "author" => %{
+                "data" => %{
+                  "id" => "#{current_participant.id}",
+                  "type" => "participant"
+                },
+                "links" => %{
+                  "related" => "/proposals/#{new_proposal.id}/author",
+                  "self" => "/proposals/#{new_proposal.id}/relationships/author"
+                }
+              }
+            }
+          },
+          "jsonapi" => %{"version" => "1.0"}
+        }
+
+        payload = Poison.Parser.parse!(response_body)
+
+        expect(payload).to eql(expected)
       end
 
       context "token is invalid" do
