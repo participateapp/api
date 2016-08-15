@@ -16,4 +16,5 @@ config :participate_api, ParticipateApi.Repo,
   password: "postgres",
   database: "participate_api_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  ownership_timeout: 600_000
