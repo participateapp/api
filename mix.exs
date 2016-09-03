@@ -45,7 +45,9 @@ defmodule ParticipateApi.Mixfile do
      {:guardian, "~> 0.12.0"},
      {:exvcr, "~> 0.7", only: :test},
      {:httpotion, "~> 2.1"},
-     {:ex_machina, "~> 1.0"}]
+     {:ex_machina, "~> 1.0"},
+     {:plug, "~> 1.0"},
+     {:corsica, "~> 0.5"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
