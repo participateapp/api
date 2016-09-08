@@ -33,6 +33,6 @@ defmodule ParticipateApi.Endpoint do
     key: "_participate_api_key",
     signing_salt: "TvmIqTzZ"
 
-  plug Corsica
+  plug Corsica, origins: "*", allow_headers: ["content-type"]
   plug ParticipateApi.Router
 end
