@@ -44,7 +44,9 @@ defmodule ParticipateApi.MeSpec do
           "data" => %{
             "id" => "#{current_participant.id}",
             "type" => "participant",
-            "attributes" => %{}
+            "attributes" => %{
+              "name" => "#{current_participant.name}"
+            }
           },
           "jsonapi" => %{"version" => "1.0"}
         }
