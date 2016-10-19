@@ -44,7 +44,7 @@ defmodule ParticipateApi.Mixfile do
      {:ja_serializer, github: "AgilionApps/ja_serializer"},
      {:guardian, "~> 0.12.0"},
      {:exvcr, "~> 0.7", only: :test},
-     {:httpotion, "~> 2.1"},
+     {:httpotion, "~> 3.0"},
      {:ex_machina, "~> 1.0"},
      {:plug, "~> 1.0"},
      {:corsica, "~> 0.5"}]
