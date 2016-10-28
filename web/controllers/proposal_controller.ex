@@ -42,7 +42,7 @@ defmodule ParticipateApi.ProposalController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, account, _claims) do
     proposal = Repo.get!(Proposal, id)
     render(conn, "show.json-api", data: proposal)
   end

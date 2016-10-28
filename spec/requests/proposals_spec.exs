@@ -26,6 +26,56 @@ defmodule ParticipateApi.ProposalsSpec do
       jwt
     end
 
+    describe "GET /proposals/:id" do
+      before do
+        proposal = Repo.insert!(%Proposal{title: "Basic income", body: "For everybody"})
+        # changeset = Proposal.changeset(proposal, %{author_id: current_participant.id})
+        # Repo.update!(changeset)
+      end
+
+      let :proposal do
+        (from Proposal, where: [title: "Basic income"])
+        |> Repo.one
+      end
+        
+      subject do
+        build_conn()
+        |> put_req_header("accept", "application/vnd.api+json")
+        |> put_req_header("content-type", "application/vnd.api+json")
+        |> put_req_header("authorization", "Bearer #{token}")
+        |> get("/proposals/#{proposal.id}")
+      end
+
+      it "returns the new proposal" do
+        response_body = subject.resp_body
+
+        expected = %{
+          "data" => %{
+            "id" => "#{proposal.id}",
+            "type" => "proposal",
+            "attributes" => %{
+              "title" => "Basic income",
+              "body"=> "For everybody"
+            },
+            "relationships" => %{
+              "author" => %{
+                "data" => nil,
+                "links" => %{
+                  "related" => "/proposals/#{proposal.id}/author",
+                  "self" => "/proposals/#{proposal.id}/relationships/author"
+                }
+              }
+            }
+          },
+          "jsonapi" => %{"version" => "1.0"}
+        }
+
+        payload = Poison.Parser.parse!(response_body)
+
+        expect(payload).to eql(expected)
+      end
+    end
+
     describe "POST /proposals" do
       let :params do
         %{
