@@ -45,7 +45,7 @@ defmodule ParticipateApi.Mixfile do
      {:guardian, "~> 0.12.0"},
      {:exvcr, "~> 0.7", only: :test},
      {:httpotion, "~> 3.0"},
-     {:ex_machina, "~> 1.0"},
+     {:ex_machina, "~> 1.0", only: :test},
      {:plug, "~> 1.0"},
      {:corsica, "~> 0.5"}]
   end

@@ -1,42 +1,20 @@
 defmodule ParticipateApi.ProposalsSpec do
   use ESpec.Phoenix, request: ParticipateApi.Endpoint
+  import ParticipateApi.Factory
 
   alias ParticipateApi.Repo
-  alias ParticipateApi.Account
-  alias ParticipateApi.Participant
   alias ParticipateApi.Proposal
 
   describe "Proposals API" do
-    # can't get ex_machina to work yet
-    # let :account, do: insert(:account)
-    before do
-      participant = Repo.insert!(%Participant{name: "David Harvey"})
-      email_and_uid = %{email: "david@harvey.net", facebook_uid: "111111111"}      
-      build_account = Ecto.build_assoc(participant, :account, email_and_uid)
-      Repo.insert!(build_account)
-    end
-
-    let :account do
-      (from Account, where: [email: "david@harvey.net"], preload: [:participant])
-      |> Repo.one
-    end
+    let :account, do: insert(:account)
     let :current_participant, do: account.participant
     let :token do
       { :ok, jwt, _full_claims } = Guardian.encode_and_sign(account)
       jwt
     end
 
-    describe "GET /proposals/:id" do
-      before do
-        proposal = Repo.insert!(%Proposal{title: "Basic income", body: "For everybody"})
-        # changeset = Proposal.changeset(proposal, %{author_id: current_participant.id})
-        # Repo.update!(changeset)
-      end
-
-      let :proposal do
-        (from Proposal, where: [title: "Basic income"])
-        |> Repo.one
-      end
+    describe "GET /proposals/:id (author is current participant)" do
+      let :proposal, do: insert(:proposal, author: current_participant)
         
       subject do
         build_conn()
@@ -54,12 +32,15 @@ defmodule ParticipateApi.ProposalsSpec do
             "id" => "#{proposal.id}",
             "type" => "proposal",
             "attributes" => %{
-              "title" => "Basic income",
-              "body"=> "For everybody"
+              "title" => proposal.title,
+              "body"=> proposal.body
             },
             "relationships" => %{
               "author" => %{
-                "data" => nil,
+                "data" => %{
+                  "id" => "#{proposal.author.id}",
+                  "type" => "participant"
+                },
                 "links" => %{
                   "related" => "/proposals/#{proposal.id}/author",
                   "self" => "/proposals/#{proposal.id}/relationships/author"
