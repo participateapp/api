@@ -1,25 +1,9 @@
 defmodule ParticipateApi.MeSpec do
   use ESpec.Phoenix, request: ParticipateApi.Endpoint
-  # import ParticipateApi.Factory
-
-  alias ParticipateApi.Repo
-  alias ParticipateApi.Account
-  alias ParticipateApi.Participant
+  import ParticipateApi.Factory
 
   describe "Me API" do
-    # can't get ex_machina to work yet
-    # let :account, do: insert(:account)
-    before do
-      participant = Repo.insert!(%Participant{name: "David Harvey"})
-      email_and_uid = %{email: "david@harvey.net", facebook_uid: "111111111"}      
-      build_account = Ecto.build_assoc(participant, :account, email_and_uid)
-      Repo.insert!(build_account)
-    end
-
-    let :account do
-      (from Account, where: [email: "david@harvey.net"], preload: [:participant])
-      |> Repo.one
-    end
+    let :account, do: insert(:account)
     let :current_participant, do: account.participant
     let :token do
       { :ok, jwt, _full_claims } = Guardian.encode_and_sign(account)
@@ -45,7 +29,7 @@ defmodule ParticipateApi.MeSpec do
             "id" => "#{current_participant.id}",
             "type" => "participant",
             "attributes" => %{
-              "name" => "#{current_participant.name}"
+              "name" => current_participant.name
             }
           },
           "jsonapi" => %{"version" => "1.0"}
