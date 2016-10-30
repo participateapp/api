@@ -43,7 +43,7 @@ defmodule ParticipateApi.ProposalController do
   end
 
   def show(conn, %{"id" => id}, account, _claims) do
-    proposal = Repo.get!(Proposal, id)
+    proposal = Repo.get!(Proposal, id) |> Repo.preload(:author) 
     render(conn, "show.json-api", data: proposal)
   end
 
