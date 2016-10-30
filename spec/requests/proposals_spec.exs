@@ -40,14 +40,19 @@ defmodule ParticipateApi.ProposalsSpec do
                 "data" => %{
                   "id" => "#{proposal.author.id}",
                   "type" => "participant"
-                },
-                "links" => %{
-                  "related" => "/proposals/#{proposal.id}/author",
-                  "self" => "/proposals/#{proposal.id}/relationships/author"
                 }
               }
             }
           },
+          "included" => [
+            %{
+              "attributes" => %{
+                "name" => proposal.author.name
+            }, 
+            "id" => "#{proposal.author.id}",
+            "type" => "participant"
+            }
+          ],
           "jsonapi" => %{"version" => "1.0"}
         }
 
@@ -117,14 +122,19 @@ defmodule ParticipateApi.ProposalsSpec do
                 "data" => %{
                   "id" => "#{current_participant.id}",
                   "type" => "participant"
-                },
-                "links" => %{
-                  "related" => "/proposals/#{new_proposal.id}/author",
-                  "self" => "/proposals/#{new_proposal.id}/relationships/author"
                 }
               }
             }
           },
+          "included" => [
+            %{
+              "attributes" => %{
+                "name" => new_proposal.author.name
+            }, 
+            "id" => "#{new_proposal.author.id}",
+            "type" => "participant"
+            }
+          ],
           "jsonapi" => %{"version" => "1.0"}
         }
 

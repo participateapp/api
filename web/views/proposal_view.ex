@@ -1,16 +1,18 @@
 defmodule ParticipateApi.ProposalView do
   use ParticipateApi.Web, :view
   use JaSerializer.PhoenixView
+  alias ParticipateApi.ParticipantView
 
   attributes [:title, :body]
   
   has_one :author,
-    field: :author_id,
-    type: "participant",
-    links: [
-      related: "/proposals/:id/author",
-      self: "/proposals/:id/relationships/author"
-    ]
+    serializer: ParticipantView,
+    include: true
+
+  def preload(record, _conn, _opts) do
+    record |> ParticipateApi.Repo.preload(:author) 
+  end
+
   # has_one :previous_proposal,
   #   field: :previous_proposal_id,
   #   type: "proposal",
