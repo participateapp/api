@@ -11,7 +11,7 @@ defmodule ParticipateApi.Factory do
 
   def participant_factory do
     %ParticipateApi.Participant{
-      name: sequence("Partcipant name")
+      name: sequence("Participant name")
     }
   end
 
