@@ -21,8 +21,7 @@ defmodule ParticipateApi.Mixfile do
   def application do
     [mod: {ParticipateApi, []},
      applications: [:phoenix, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpotion,
-                    :ex_machina]]
+                    :phoenix_ecto, :postgrex, :httpotion]]
   end
 
   # Specifies which paths to compile per environment.
