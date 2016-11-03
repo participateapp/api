@@ -13,6 +13,78 @@ defmodule ParticipateApi.ProposalsSpec do
       jwt
     end
 
+    describe "GET /proposals" do
+      let! :proposal, do: insert(:proposal)
+        
+      subject do
+        build_conn()
+        |> put_req_header("accept", "application/vnd.api+json")
+        |> put_req_header("content-type", "application/vnd.api+json")
+        |> put_req_header("authorization", "Bearer #{token}")
+        |> get("/proposals")
+      end
+
+      it "200 OK" do
+        expect(subject).to have_http_status(200)
+      end
+
+      it "returns the new proposal" do
+        response_body = subject.resp_body
+
+        expected = %{
+          "data" => [
+            %{
+              "id" => "#{proposal.id}",
+              "type" => "proposal",
+              "attributes" => %{
+                "title" => proposal.title,
+                "body"=> proposal.body
+              },
+              "relationships" => %{
+                "author" => %{
+                  "data" => %{
+                    "id" => "#{proposal.author.id}",
+                    "type" => "participant"
+                  }
+                }
+              }
+            }
+          ],
+          "included" => [
+            %{
+              "attributes" => %{
+                "name" => proposal.author.name
+            }, 
+            "id" => "#{proposal.author.id}",
+            "type" => "participant"
+            }
+          ],
+          "jsonapi" => %{"version" => "1.0"}
+        }
+
+        payload = Poison.Parser.parse!(response_body)
+
+        expect(payload).to eql(expected)
+      end
+
+      context "token is invalid" do
+        let :token, do: "badtoken"
+
+        it "401 Unauthorized" do
+          expect(subject).to have_http_status(401)
+        end
+
+        it "empty body" do
+          # expect(subject.resp_body).to eq ""
+          # this diverges from the oauth spec, but overriding 
+          # Guardian.Plug.EnsureAuthenticated's error handling isn't 
+          # worth it for now
+          expect(subject.resp_body).to eq "{\"errors\":[\"Unauthenticated\"]}"
+        end
+
+      end
+    end
+
     describe "GET /proposals/:id (author is current participant)" do
       let :proposal, do: insert(:proposal, author: current_participant)
         
@@ -22,6 +94,10 @@ defmodule ParticipateApi.ProposalsSpec do
         |> put_req_header("content-type", "application/vnd.api+json")
         |> put_req_header("authorization", "Bearer #{token}")
         |> get("/proposals/#{proposal.id}")
+      end
+
+      it "200 OK" do
+        expect(subject).to have_http_status(200)
       end
 
       it "returns the new proposal" do
@@ -59,6 +135,23 @@ defmodule ParticipateApi.ProposalsSpec do
         payload = Poison.Parser.parse!(response_body)
 
         expect(payload).to eql(expected)
+      end
+
+      context "token is invalid" do
+        let :token, do: "badtoken"
+
+        it "401 Unauthorized" do
+          expect(subject).to have_http_status(401)
+        end
+
+        it "empty body" do
+          # expect(subject.resp_body).to eq ""
+          # this diverges from the oauth spec, but overriding 
+          # Guardian.Plug.EnsureAuthenticated's error handling isn't 
+          # worth it for now
+          expect(subject.resp_body).to eq "{\"errors\":[\"Unauthenticated\"]}"
+        end
+
       end
     end
 

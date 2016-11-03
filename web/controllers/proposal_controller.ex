@@ -8,7 +8,7 @@ defmodule ParticipateApi.ProposalController do
 
   plug :scrub_params, "data" when action in [:create, :update]
 
-  def index(conn, _params) do
+  def index(conn, _params, account, _claims) do
     proposals = Repo.all(Proposal)
     render(conn, data: proposals)
   end
