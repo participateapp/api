@@ -1,6 +1,6 @@
 defmodule ParticipateApi.ProposalView do
-  use ParticipateApi.Web, :view
   use JaSerializer.PhoenixView
+
   alias ParticipateApi.ParticipantView
 
   attributes [:title, :body]

@@ -7,7 +7,7 @@ defmodule ParticipateApi.Proposal do
     
     belongs_to :author, ParticipateApi.Participant
     
-    # has_many :supports, ParticipateApi.Support
+    has_many :supports, ParticipateApi.Support
     # has_many :suggestions, ParticipateApi.Suggestion
     # has_many :delegations, ParticipateApi.Delegation
     # has_many :delegates, ParticipantApi.Participant, foreign_key: :proposal_id
@@ -18,7 +18,7 @@ defmodule ParticipateApi.Proposal do
     timestamps()
   end
 
-  @required_fields ~w(title body author_id)
+  @required_fields ~w(title body author_id)a
   @optional_fields ~w()
 
   @doc """

@@ -17,17 +17,10 @@ defmodule ParticipateApi.ProposalController do
     query = from Participant, where: [id: ^account.participant_id]
     me = Repo.one(query)
 
-    # changeset = 
-    #   me
-    #   |> Ecto.build_assoc(:proposals)
-    #   |> Proposal.changeset(Params.to_attributes(data))
-
-    # seriously (cast() is barfing)
-    attrs = 
-      Params.to_attributes(data)
-      |> Enum.reduce(%{}, fn ({key, val}, acc) -> Map.put(acc, String.to_atom(key), val) end)
-
-    changeset = Ecto.build_assoc(me, :proposals, attrs)
+    changeset = 
+      me
+      |> Ecto.build_assoc(:proposals)
+      |> Proposal.changeset(Params.to_attributes(data))
 
     case Repo.insert(changeset) do
       {:ok, proposal} ->
