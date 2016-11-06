@@ -31,7 +31,9 @@ defmodule ParticipateApi.SupportsSpec do
         }
       end
       let :new_support do
-        Repo.one(Support) |> Repo.preload(:proposal) 
+        Repo.one(Support)
+        |> Repo.preload(:proposal) 
+        |> Repo.preload(:author) 
       end
 
       subject do
@@ -47,20 +49,66 @@ defmodule ParticipateApi.SupportsSpec do
       end
 
       it "creates one support" do
-        count = Repo.aggregate(Support, :count, :id)
-        expect(count).to eql 0
+        expect(Repo.aggregate(Support, :count, :id)).to eql 0
         subject
-        expect(count).to eql 1
+        expect(Repo.aggregate(Support, :count, :id)).to eql 1
       end
 
       it "associates new support to the current proposal" do
         subject
-        expect(new_support.proposal).to eql proposal
+        expect(new_support.proposal.id).to eql proposal.id
       end
 
       it "associates new support to the current participant" do
         subject
-        expect(new_support.author).to eql current_participant
+        expect(new_support.author.id).to eql current_participant.id
+      end
+
+      it "returns the new proposal" do
+        response_body = subject.resp_body
+
+        expected = %{
+          "data" => %{
+            "id" => "#{new_support.id}",
+            "type" => "support",
+            "relationships" => %{
+              "author" => %{
+                "links" => %{
+                  "related" => "http://www.example.com/supports/#{new_support.id}/author",
+                  "self" => "http://www.example.com/supports/#{new_support.id}/relationships/author"
+                }
+              },
+              "proposal" => %{
+                "links" => %{
+                  "related" => "http://www.example.com/supports/#{new_support.id}/proposal",
+                  "self" => "http://www.example.com/supports/#{new_support.id}/relationships/proposal"
+                },
+                "data" => %{
+                  "type" => "proposal"
+                }
+              }
+            },
+            "links" => %{
+              "self" => "http://www.example.com/supports/#{new_support.id}"
+            }
+          },
+          "included" => [
+            %{
+              "type" => "proposal",
+              "id" => "#{proposal.id}",
+              "attributes" => %{
+                "support-count" => 1
+              },
+              "links" => %{
+                "self" => "http://www.example.com/proposals/#{proposal.id}"
+              }
+            }
+          ]
+        }
+
+        payload = Poison.Parser.parse!(response_body)
+
+        expect(payload).to eql(expected)
       end
 
       context "token is invalid" do
