@@ -1,16 +1,25 @@
 defmodule ParticipateApi.ProposalView do
-  use ParticipateApi.Web, :view
   use JaSerializer.PhoenixView
+
+  alias ParticipateApi.Repo
   alias ParticipateApi.ParticipantView
 
-  attributes [:title, :body]
+  attributes [:title, :body, :support_count]
   
   has_one :author,
     serializer: ParticipantView,
     include: true
 
-  def preload(record, _conn, _opts) do
-    record |> ParticipateApi.Repo.preload(:author) 
+  # TODO: move support_count to a helper module
+  # once delegations are in and support weight 
+  # will have a more complex calculation
+  def support_count(proposal, _conn) do
+    proposal_with_supports = proposal |> Repo.preload(:supports)
+    length(proposal_with_supports.supports)
+  end
+
+  def preload(proposal, _conn, _opts) do
+    proposal |> Repo.preload(:author) 
   end
 
   # has_one :previous_proposal,
