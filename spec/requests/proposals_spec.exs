@@ -28,7 +28,7 @@ defmodule ParticipateApi.ProposalsSpec do
         expect(subject).to have_http_status(200)
       end
 
-      it "returns the new proposal" do
+      it "returns a collection with all proposals" do
         response_body = subject.resp_body
 
         expected = %{
@@ -38,7 +38,8 @@ defmodule ParticipateApi.ProposalsSpec do
               "type" => "proposal",
               "attributes" => %{
                 "title" => proposal.title,
-                "body"=> proposal.body
+                "body"=> proposal.body,
+                "support-count" => 0
               },
               "relationships" => %{
                 "author" => %{
@@ -100,7 +101,7 @@ defmodule ParticipateApi.ProposalsSpec do
         expect(subject).to have_http_status(200)
       end
 
-      it "returns the new proposal" do
+      it "returns the proposal" do
         response_body = subject.resp_body
 
         expected = %{
@@ -109,7 +110,8 @@ defmodule ParticipateApi.ProposalsSpec do
             "type" => "proposal",
             "attributes" => %{
               "title" => proposal.title,
-              "body"=> proposal.body
+              "body"=> proposal.body,
+              "support-count" => 0
             },
             "relationships" => %{
               "author" => %{
@@ -208,7 +210,8 @@ defmodule ParticipateApi.ProposalsSpec do
             "type" => "proposal",
             "attributes" => %{
               "title" => "Title",
-              "body"=> "Body"
+              "body"=> "Body",
+              "support-count" => 0
             },
             "relationships" => %{
               "author" => %{

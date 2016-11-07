@@ -1,5 +1,7 @@
 defmodule ParticipateApi.SupportView do
   use JaSerializer.PhoenixView
+
+  alias ParticipateApi.ProposalWithSupportCountView
   
   has_one :proposal,
     serializer: ProposalWithSupportCountView,

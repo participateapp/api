@@ -71,25 +71,14 @@ defmodule ParticipateApi.SupportsSpec do
           "data" => %{
             "id" => "#{new_support.id}",
             "type" => "support",
+            "attributes" => %{},
             "relationships" => %{
-              "author" => %{
-                "links" => %{
-                  "related" => "http://www.example.com/supports/#{new_support.id}/author",
-                  "self" => "http://www.example.com/supports/#{new_support.id}/relationships/author"
-                }
-              },
               "proposal" => %{
-                "links" => %{
-                  "related" => "http://www.example.com/supports/#{new_support.id}/proposal",
-                  "self" => "http://www.example.com/supports/#{new_support.id}/relationships/proposal"
-                },
                 "data" => %{
-                  "type" => "proposal"
+                  "type" => "proposal",
+                  "id" => "#{proposal.id}"
                 }
               }
-            },
-            "links" => %{
-              "self" => "http://www.example.com/supports/#{new_support.id}"
             }
           },
           "included" => [
@@ -98,12 +87,10 @@ defmodule ParticipateApi.SupportsSpec do
               "id" => "#{proposal.id}",
               "attributes" => %{
                 "support-count" => 1
-              },
-              "links" => %{
-                "self" => "http://www.example.com/proposals/#{proposal.id}"
               }
             }
-          ]
+          ], 
+          "jsonapi" => %{"version" => "1.0"}
         }
 
         payload = Poison.Parser.parse!(response_body)
