@@ -21,6 +21,12 @@ Create a database `participate_api_dev` and insert initial data:
 $ mix ecto.setup
 ```
 
+To migrate an existing database to a new version of the API server do this instead:
+
+```sh
+$ mix ecto.migrate
+```
+
 Start the API server:
 
 ```sh
