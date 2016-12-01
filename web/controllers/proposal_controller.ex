@@ -9,11 +9,13 @@ defmodule ParticipateApi.ProposalController do
   plug :scrub_params, "data" when action in [:create, :update]
 
   def index(conn, _params, account, _claims) do
+    conn = assign(conn, :account, account)
     proposals = Repo.all(Proposal)
     render(conn, data: proposals)
   end
 
   def create(conn, %{"data" => data}, account, _claims) do
+    conn = assign(conn, :account, account)
     query = from Participant, where: [id: ^account.participant_id]
     me = Repo.one(query)
 
@@ -36,6 +38,7 @@ defmodule ParticipateApi.ProposalController do
   end
 
   def show(conn, %{"id" => id}, account, _claims) do
+    conn = assign(conn, :account, account)
     proposal = Repo.get!(Proposal, id) |> Repo.preload(:author) 
     render(conn, "show.json-api", data: proposal)
   end

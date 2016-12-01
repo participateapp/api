@@ -4,7 +4,7 @@ defmodule ParticipateApi.ProposalView do
   alias ParticipateApi.Repo
   alias ParticipateApi.ParticipantView
 
-  attributes [:title, :body, :support_count]
+  attributes [:title, :body, :support_count, :authored_by_me]
   
   has_one :author,
     serializer: ParticipantView,
@@ -16,6 +16,14 @@ defmodule ParticipateApi.ProposalView do
   def support_count(proposal, _conn) do
     proposal_with_supports = proposal |> Repo.preload(:supports)
     length(proposal_with_supports.supports)
+  end
+
+  def authored_by_me(proposal, conn) do
+    if proposal.author.id == conn.assigns[:account].participant_id do
+      "true"
+    else
+      "false"
+    end
   end
 
   def preload(proposal, _conn, _opts) do

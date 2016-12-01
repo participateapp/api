@@ -39,7 +39,8 @@ defmodule ParticipateApi.ProposalsSpec do
               "attributes" => %{
                 "title" => proposal.title,
                 "body"=> proposal.body,
-                "support-count" => 0
+                "support-count" => 0,
+                "authored-by-me" => "false"
               },
               "relationships" => %{
                 "author" => %{
@@ -111,7 +112,8 @@ defmodule ParticipateApi.ProposalsSpec do
             "attributes" => %{
               "title" => proposal.title,
               "body"=> proposal.body,
-              "support-count" => 0
+              "support-count" => 0,
+              "authored-by-me" => "true"
             },
             "relationships" => %{
               "author" => %{
@@ -137,6 +139,17 @@ defmodule ParticipateApi.ProposalsSpec do
         payload = Poison.Parser.parse!(response_body)
 
         expect(payload).to eql(expected)
+      end
+
+      context "when another participant is the author" do
+        let :another_participant, do: insert(:participant)
+        let :proposal, do: insert(:proposal, author: another_participant)
+
+        it "returns the proposal" do
+          response_body = subject.resp_body
+          payload = Poison.Parser.parse!(response_body)
+          expect(payload["data"]["attributes"]["authored-by-me"]).to eql("false")
+        end
       end
 
       context "token is invalid" do
@@ -211,7 +224,8 @@ defmodule ParticipateApi.ProposalsSpec do
             "attributes" => %{
               "title" => "Title",
               "body"=> "Body",
-              "support-count" => 0
+              "support-count" => 0,
+              "authored-by-me" => "true"
             },
             "relationships" => %{
               "author" => %{
