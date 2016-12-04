@@ -10,6 +10,7 @@ defmodule ParticipateApi.SupportController do
   plug :scrub_params, "data" when action in [:create, :update]
 
   def create(conn, %{"data" => data}, account, _claims) do
+    conn = assign(conn, :account, account)
     query = from Participant, where: [id: ^account.participant_id]
     me = Repo.one(query)
 
