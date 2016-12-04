@@ -3,7 +3,6 @@ defmodule ParticipateApi.SupportController do
   use Guardian.Phoenix.Controller
 
   alias ParticipateApi.Participant
-  alias ParticipateApi.Proposal
   alias ParticipateApi.Support
   alias JaSerializer.Params
 
