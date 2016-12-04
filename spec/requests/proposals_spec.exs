@@ -40,6 +40,7 @@ defmodule ParticipateApi.ProposalsSpec do
                 "title" => proposal.title,
                 "body"=> proposal.body,
                 "support-count" => 0,
+                "supported-by-me" => "false",
                 "authored-by-me" => "false"
               },
               "relationships" => %{
@@ -113,6 +114,7 @@ defmodule ParticipateApi.ProposalsSpec do
               "title" => proposal.title,
               "body"=> proposal.body,
               "support-count" => 0,
+              "supported-by-me" => "false",
               "authored-by-me" => "true"
             },
             "relationships" => %{
@@ -225,6 +227,7 @@ defmodule ParticipateApi.ProposalsSpec do
               "title" => "Title",
               "body"=> "Body",
               "support-count" => 0,
+              "supported-by-me" => "false",
               "authored-by-me" => "true"
             },
             "relationships" => %{

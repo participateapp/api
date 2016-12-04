@@ -4,7 +4,7 @@ defmodule ParticipateApi.ProposalView do
   alias ParticipateApi.Repo
   alias ParticipateApi.ParticipantView
 
-  attributes [:title, :body, :support_count, :authored_by_me]
+  attributes [:title, :body, :support_count, :authored_by_me, :supported_by_me]
   
   has_one :author,
     serializer: ParticipantView,
@@ -20,6 +20,19 @@ defmodule ParticipateApi.ProposalView do
 
   def authored_by_me(proposal, conn) do
     if proposal.author.id == conn.assigns[:account].participant_id do
+      "true"
+    else
+      "false"
+    end
+  end
+
+  def supported_by_me(proposal, conn) do
+    proposal_with_supports = proposal |> Repo.preload(:supports)
+    support_author_ids = Enum.map(proposal_with_supports.supports, fn(support) -> support.author_id end)
+
+    me_id = conn.assigns[:account].participant_id
+
+    if me_id in support_author_ids do
       "true"
     else
       "false"
