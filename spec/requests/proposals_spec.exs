@@ -40,8 +40,8 @@ defmodule ParticipateApi.ProposalsSpec do
                 "title" => proposal.title,
                 "body"=> proposal.body,
                 "support-count" => 0,
-                "supported-by-me" => "false",
-                "authored-by-me" => "false"
+                "supported-by-me" => false,
+                "authored-by-me" => false
               },
               "relationships" => %{
                 "author" => %{
@@ -114,8 +114,8 @@ defmodule ParticipateApi.ProposalsSpec do
               "title" => proposal.title,
               "body"=> proposal.body,
               "support-count" => 0,
-              "supported-by-me" => "false",
-              "authored-by-me" => "true"
+              "supported-by-me" => false,
+              "authored-by-me" => true
             },
             "relationships" => %{
               "author" => %{
@@ -150,7 +150,7 @@ defmodule ParticipateApi.ProposalsSpec do
         it "returns the proposal" do
           response_body = subject.resp_body
           payload = Poison.Parser.parse!(response_body)
-          expect(payload["data"]["attributes"]["authored-by-me"]).to eql("false")
+          expect(payload["data"]["attributes"]["authored-by-me"]).to eql(false)
         end
       end
 
@@ -227,8 +227,8 @@ defmodule ParticipateApi.ProposalsSpec do
               "title" => "Title",
               "body"=> "Body",
               "support-count" => 0,
-              "supported-by-me" => "false",
-              "authored-by-me" => "true"
+              "supported-by-me" => false,
+              "authored-by-me" => true
             },
             "relationships" => %{
               "author" => %{
