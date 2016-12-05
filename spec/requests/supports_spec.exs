@@ -87,7 +87,7 @@ defmodule ParticipateApi.SupportsSpec do
               "id" => "#{proposal.id}",
               "attributes" => %{
                 "support-count" => 1,
-                "supported-by-me" => "true",
+                "supported-by-me" => true,
               }
             }
           ], 

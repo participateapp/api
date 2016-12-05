@@ -20,9 +20,9 @@ defmodule ParticipateApi.ProposalView do
 
   def authored_by_me(proposal, conn) do
     if proposal.author.id == conn.assigns[:account].participant_id do
-      "true"
+      true
     else
-      "false"
+      false
     end
   end
 
@@ -33,9 +33,9 @@ defmodule ParticipateApi.ProposalView do
     me_id = conn.assigns[:account].participant_id
 
     if me_id in support_author_ids do
-      "true"
+      true
     else
-      "false"
+      false
     end
   end
 

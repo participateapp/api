@@ -23,9 +23,9 @@ defmodule ParticipateApi.ProposalWithSupportCountView do
     me_id = conn.assigns[:account].participant_id
 
     if me_id in support_author_ids do
-      "true"
+      true
     else
-      "false"
+      false
     end
   end
 
