@@ -119,6 +119,12 @@ Quick walkthrough:
   ```
 - The API should be up and running at https://participate-api.herokuapp.com  
   (Replace `participate-api` with you own app name).
+  As a quick check run:
+
+  ```
+  $ heroku open
+  ```
+  This should display something like `{"errors":{"detail":"Page not found"}}` in your browser. (It's an error because we have currently no endpoint served at `/`.)
 - To view log messages:
   
   ```
