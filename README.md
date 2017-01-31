@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- [Elixir](http://elixir-lang.org/) (tested with Elixir version 1.3.4)
-- [PostgreSQL](https://www.postgresql.org/) (tested with PostgreSQL 9.5.4)
+- [Elixir](http://elixir-lang.org/) (tested with Elixir version 1.4.1)
+- [PostgreSQL](https://www.postgresql.org/) (tested with PostgreSQL 9.6.1)
 
 
 ## Build
