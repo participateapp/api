@@ -5,7 +5,10 @@ defmodule ParticipateApi.UserSocket do
   # channel "rooms:*", ParticipateApi.RoomChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket,
+    # Set timeout shorter than Heroku's 55 seconds timeout window
+    # http://www.phoenixframework.org/docs/heroku
+    timeout: 45_000
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
