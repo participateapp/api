@@ -28,8 +28,11 @@ defmodule ParticipateApi.Facebook do
   end
 
   defp token_query(fb_dialog_response_code) do
-    # TODO move to env vars
-    "client_id=1583083701926004&client_secret=16b9c526400d10d95589b168dae80d4d&redirect_uri=http://localhost:3000/facebook_redirect&code=#{fb_dialog_response_code}"
+    fb_client_id = System.get_env("FACEBOOK_CLIENT_ID") || "1583083701926004"
+    fb_client_secret = System.get_env("FACEBOOK_CLIENT_SECRET") || "16b9c526400d10d95589b168dae80d4d"
+    fb_redirect_uri = System.get_env("FACEBOOK_REDIRECT_URI") || "http://localhost:3000/facebook_redirect"
+
+    "client_id=#{fb_client_id}&client_secret=#{fb_client_secret}&redirect_uri=#{fb_redirect_uri}&code=#{fb_dialog_response_code}"
   end
 
   defp me_url(access_token) do
