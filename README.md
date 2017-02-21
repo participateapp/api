@@ -138,4 +138,17 @@ Quick walkthrough:
       ```
     - You can use [pgAdmin](https://www.pgadmin.org/) to access the database with the given credentials.
     - For managing backups see [Heroku docs](https://devcenter.heroku.com/articles/heroku-postgres-backups).
+
+
+## Want to get involved?
+
+We'll pair with you so you can get up to speed quickly, and we pair on features as well. 
+
+[Shoot us an email](mailto:oliverbwork@gmail.com), we'll add you to our Slack channel to join the discussion and talk about next steps.
+
+Please check out [the contributing guide](CONTRIBUTING.md) and our [code of conduct](CODE_OF_CONDUCT.md)
+
+---
+
+Participate was inspired by [LiquidFeedback](http://liquidfeedback.org), and the book published by its authors: [Principles of Liquid Feedback](http://principles.liquidfeedback.org)
       
