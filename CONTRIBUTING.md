@@ -3,18 +3,18 @@ Contributing
 
 Contributions are much appreciated!
 
-You're welcome to submit [pull requests](https://github.com/oliverbarnes/participate-api/pulls), propose features and post bugs on [Github issues](https://github.com/oliverbarnes/participate-api/issues), and ask questions on our [Slack channel](https://participateapp.slack.com) (ping me for an invite [by email](mailto:oliverbwork@gmail.com) or on [twitter](http://twitter.com/digiberber)). 
+You're welcome to submit [pull requests](https://github.com/participateapp/api/pulls), propose features and post bugs on [Github issues](https://github.com/participateapp/api/issues), and ask questions on our [Slack channel](https://participateapp.slack.com) (ping me for an invite [by email](mailto:oliverbwork@gmail.com) or on [twitter](http://twitter.com/digiberber)). 
 
 Here are the steps for contributing code:
 
 #### Fork the Project
 
-Fork the [project on Github](https://github.com/oliverbarnes/participate-api) and check out your copy.
+Fork the [project on Github](https://github.com/participateapp/api) and check out your copy.
 
 ```
-git clone https://github.com/contributor/participate-api.git
+git clone https://github.com/contributor/api.git
 cd participate
-git remote add upstream https://github.com/oliverbarnes/participate-api.git
+git remote add upstream https://github.com/participateapp/api.git
 ```
 
 #### Create a Topic Branch
@@ -77,7 +77,7 @@ git push origin my-feature-branch
 
 #### Make a Pull Request
 
-Go to https://github.com/contributor/participate-api and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed daily on weekdays.
+Go to https://github.com/contributor/api and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed daily on weekdays.
 
 If you're new to Pull Requests, check out the [Github docs](https://help.github.com/articles/using-pull-requests)
 
