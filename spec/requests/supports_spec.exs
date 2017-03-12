@@ -99,6 +99,30 @@ defmodule ParticipateApi.SupportsSpec do
         expect(payload).to eql(expected)
       end
 
+      context "duplicate support by same author" do
+        let! :support, do: insert(:support, proposal: proposal, author: current_participant)
+
+        it "422 Unprocessable Entity" do
+          expect(subject).to have_http_status(422)
+        end
+
+        it "Error: support already given" do
+          expect(subject.resp_body)
+            .to eq "{\"errors\":[{\"title\":\"Already supports this proposal\",\"source\":{\"pointer\":\"/data/attributes/author\"},\"detail\":\"Author Already supports this proposal\"}]}"
+        end
+      end
+
+      # WIP
+      # context "support author is also the proposal's author" do
+      #   it "422 Unprocessable Entity" do
+      #     expect(subject).to have_http_status(422)
+      #   end
+
+      #   it "Error: proposal author can't support their own proposal" do
+      #     expect(subject.resp_body).to eq "{\"errors\":[\"Proposal author can't support their own proposal\"]}"
+      #   end
+      # end
+
       context "token is invalid" do
         let :token, do: "badtoken"
 
@@ -106,7 +130,7 @@ defmodule ParticipateApi.SupportsSpec do
           expect(subject).to have_http_status(401)
         end
 
-        it "empty body" do
+        it "Unauthenticated error" do
           # expect(subject.resp_body).to eq ""
           # this diverges from the oauth spec, but overriding 
           # Guardian.Plug.EnsureAuthenticated's error handling isn't 
