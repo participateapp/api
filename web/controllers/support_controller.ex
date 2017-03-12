@@ -8,6 +8,16 @@ defmodule ParticipateApi.SupportController do
 
   plug :scrub_params, "data" when action in [:create, :update]
 
+  # FIXME: should return the created support resource instead 
+  # of the updated proposal
+  #
+  # the proposal is returned here so support-count is updated
+  # on the web-client's proposal copy, but this is counter-intuitive and 
+  # not RESTful. We can achieve the same by returning the created 
+  # support resource with the associated proposal included.
+  #
+  # Of course, the response decoder on the web-client will 
+  # have to be changed to handle the new response
   def create(conn, %{"data" => data}, account, _claims) do
     conn = assign(conn, :account, account)
     query = from Participant, where: [id: ^account.participant_id]

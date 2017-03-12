@@ -22,4 +22,11 @@ defmodule ParticipateApi.Factory do
       author: build(:participant)
     }
   end
+
+  def support_factory do
+    %ParticipateApi.Support{
+      author: build(:participant),
+      proposal: build(:proposal)
+    }
+  end
 end
