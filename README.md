@@ -1,3 +1,5 @@
+Elixir/Phoenix API backing the [Elm web-client for Participate!](https://github.com/participateapp/web-client). More about the project on the [web-client README](https://github.com/participateapp/web-client)
+
 # Setup
 
 ## Prerequisites
@@ -21,7 +23,7 @@ Create a database `participate_api_dev` and insert initial data:
 $ mix ecto.setup
 ```
 
-To migrate an existing database to a new version of the API server do this instead:
+To update an existing database with new migrations:
 
 ```sh
 $ mix ecto.migrate
@@ -35,19 +37,13 @@ $ mix phoenix.server
 
 ## Running tests
 
-Create a database `participate_api_test`:
-
-_ToDo: Should this be an `ecto` command?_
-
-```sh
-$ createdb participate_api_test
-```
-
-Run all tests:
+When running the suite for the first time, run it twice: the first time you'll get an error about the test db not being created yet, the second time it'll run fine - the db will have been created by then.
 
 ```sh
 $ mix espec
 ```
+
+[Espec](https://github.com/antonmi/espec) is a BDD test framework very much like ruby's Rspec.
 
 ## Deploy to Heroku
 
