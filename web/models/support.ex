@@ -20,6 +20,7 @@ defmodule ParticipateApi.Support do
     |> cast(params, @required_fields, @optional_fields)
     |> validate_required(@required_fields)
     |> assoc_constraint(:proposal)
+    |> validate_supporter_not_author_of_proposal
     |> validate_no_previous_support_given_by_author
   end
 end

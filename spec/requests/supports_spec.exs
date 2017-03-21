@@ -108,20 +108,22 @@ defmodule ParticipateApi.SupportsSpec do
 
         it "Error: support already given" do
           expect(subject.resp_body)
-            .to eq "{\"errors\":[{\"title\":\"Already supports this proposal\",\"source\":{\"pointer\":\"/data/attributes/author\"},\"detail\":\"Author Already supports this proposal\"}]}"
+            .to eq "{\"errors\":[{\"title\":\"already supports this proposal\",\"source\":{\"pointer\":\"/data/attributes/author\"},\"detail\":\"Author already supports this proposal\"}]}"
         end
       end
 
-      # WIP
-      # context "support author is also the proposal's author" do
-      #   it "422 Unprocessable Entity" do
-      #     expect(subject).to have_http_status(422)
-      #   end
+      context "support author is also the proposal's author" do
+        let! :proposal, do: insert(:proposal, author: current_participant)
 
-      #   it "Error: proposal author can't support their own proposal" do
-      #     expect(subject.resp_body).to eq "{\"errors\":[\"Proposal author can't support their own proposal\"]}"
-      #   end
-      # end
+        it "422 Unprocessable Entity" do
+          expect(subject).to have_http_status(422)
+        end
+
+        it "Error: proposal author can't support own proposal" do
+          expect(subject.resp_body)
+            .to eq "{\"errors\":[{\"title\":\"can't support own proposal\",\"source\":{\"pointer\":\"/data/attributes/author\"},\"detail\":\"Author can't support own proposal\"}]}"
+        end
+      end
 
       context "token is invalid" do
         let :token, do: "badtoken"
