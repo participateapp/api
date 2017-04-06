@@ -12,9 +12,10 @@ defmodule ParticipateApi.SupportsSpec do
       { :ok, jwt, _full_claims } = Guardian.encode_and_sign(account)
       jwt
     end
+    
+    let! :proposal, do: insert(:proposal)
 
     describe "POST /supports" do
-      let! :proposal, do: insert(:proposal)
       let :params do
         %{
           "data" => %{
@@ -122,6 +123,54 @@ defmodule ParticipateApi.SupportsSpec do
         it "Error: proposal author can't support own proposal" do
           expect(subject.resp_body)
             .to eq "{\"errors\":[{\"title\":\"can't support own proposal\",\"source\":{\"pointer\":\"/data/attributes/author\"},\"detail\":\"Author can't support own proposal\"}]}"
+        end
+      end
+
+      context "token is invalid" do
+        let :token, do: "badtoken"
+
+        it "401 Unauthorized" do
+          expect(subject).to have_http_status(401)
+        end
+
+        it "Unauthenticated error" do
+          # expect(subject.resp_body).to eq ""
+          # this diverges from the oauth spec, but overriding 
+          # Guardian.Plug.EnsureAuthenticated's error handling isn't 
+          # worth it for now
+          expect(subject.resp_body).to eq "{\"errors\":[\"Unauthenticated\"]}"
+        end
+      end
+    end
+
+    describe "DELETE /proposals/:id/support" do
+      let! :support, do: insert(:support, proposal: proposal, author: current_participant)
+
+      subject do
+        build_conn()
+        |> put_req_header("accept", "application/vnd.api+json")
+        |> put_req_header("content-type", "application/vnd.api+json")
+        |> put_req_header("authorization", "Bearer #{token}")
+        |> delete("/proposals/#{proposal.id}/support")
+      end
+
+      it "deletes the support resource" do
+        subject
+        query = from Support, where: [id: ^support.id]
+        expect(Repo.aggregate(query, :count, :id)).to eq 0
+      end
+
+      it "204 No Content" do
+        expect(subject).to have_http_status(204)
+        expect(subject.resp_body).to eq ""
+      end
+
+      context "current participant isn't the supporter" do
+        let! :support, do: insert(:support)
+
+        it "403 Forbidden" do
+          expect(subject).to have_http_status(403)
+          expect(subject.resp_body).to eq ""
         end
       end
 
