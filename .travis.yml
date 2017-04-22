@@ -31,3 +31,11 @@ before_script:
 
 script:
   - mix espec
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: participate-api
+  on:
+    repo: participateapp/api
+    branch: 7-travis-ci
