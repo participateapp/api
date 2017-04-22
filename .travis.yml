@@ -34,8 +34,8 @@ script:
 
 deploy:
   provider: heroku
-  api_key: $HEROKU_API_KEY
   app: participate-api
   on:
-    repo: participateapp/api
-    branch: 7-travis-ci
+    branch: master
+    condition: -n $HEROKU_API_KEY
+  api_key: $HEROKU_API_KEY
