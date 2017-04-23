@@ -1,0 +1,41 @@
+
+sudo: false
+
+language: elixir
+
+elixir:
+  - 1.4.2
+
+otp_release:
+  - 19.3
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "9.4"
+
+cache:
+  directories:
+    - deps
+    - _build
+
+install:
+  - mix local.rebar --force
+  - mix local.hex --force
+  - mix deps.get
+
+before_script:
+  - mix compile
+  - psql -c 'create database participate_api_test;' -U postgres
+
+script:
+  - mix espec
+
+deploy:
+  provider: heroku
+  app: participate-api
+  on:
+    branch: master
+    condition: -n $HEROKU_API_KEY
+  api_key: $HEROKU_API_KEY
