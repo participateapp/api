@@ -40,4 +40,17 @@ defmodule ParticipateApi.SupportController do
         |> render(:errors, data: changeset)
     end
   end
+
+  def delete(conn, %{"proposal_id" => proposal_id}, account, _claims) do
+    query = from Support, where: [proposal_id: ^proposal_id, author_id: ^account.participant_id]
+
+    support = Repo.one(query)
+
+    if support do
+      Repo.delete(support)
+      conn |> send_resp(:no_content, "")
+    else 
+      conn |> send_resp(:forbidden, "")
+    end
+  end
 end

@@ -28,6 +28,8 @@ defmodule ParticipateApi.Router do
     resources "/participants", ParticipantController, only: [:show]
     resources "/proposals", ProposalController
     resources "/supports", SupportController, only: [:create]
+
+    delete "/proposals/:proposal_id/support", SupportController, :delete
   end
 
 end
